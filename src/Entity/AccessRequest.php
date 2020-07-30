@@ -8,15 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=AccessRequestRepository::class)
  */
-class AccessRequest
+class AccessRequest extends BaseEntity
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string")
      */
@@ -42,16 +35,11 @@ class AccessRequest
      */
     private $description;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getFirstName()
     {
         return $this->firstName;
     }
-    
+
     public function setFirstName($firstName): void
     {
         $this->firstName = $firstName;
