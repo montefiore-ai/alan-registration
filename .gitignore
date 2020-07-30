@@ -1,5 +1,6 @@
 .idea/
 alan-config/ssh/
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
