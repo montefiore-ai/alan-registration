@@ -46,7 +46,7 @@ class FreeIPAService
     private function connect(): void
     {
         $host = $this->configHelper->getParameter('IPA_HOST');
-        $cert = $this->projectDir . '/freeipa/ca.crt';
+        $cert = $this->projectDir . '/alan-config/freeipa/ca.crt';
 
         $this->ipa = new Main($host, $cert);
     }

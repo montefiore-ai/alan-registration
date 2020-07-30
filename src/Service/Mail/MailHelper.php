@@ -124,6 +124,7 @@ class MailHelper
                 'host' => $this->configHelper->getParameter('MASTER_HOST'),
                 'ip' => $this->configHelper->getParameter('MASTER_IP')
             ])
+            // TODO: Attach from path alan private key
             ->priority(Email::PRIORITY_NORMAL);
 
         $this->getBodyRenderer()->render($mail);
