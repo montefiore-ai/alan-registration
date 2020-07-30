@@ -64,7 +64,7 @@ class RequestHandlerController extends AbstractController
             $data = $form->getData();
 
             // TODO: execute linux command based on user group.
-            // $group = $data['userGroup'];
+            // $group = $data['userGroup']; // student researcher
 
             // Generate a random password and create the account in FreeIPA.
             $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());

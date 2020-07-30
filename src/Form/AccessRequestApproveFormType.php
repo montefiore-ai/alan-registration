@@ -15,8 +15,9 @@ class AccessRequestApproveFormType extends AbstractType
             ->add('userGroup', ChoiceType::class, [
                 'choices' => [
                     'Select a user group' => [
-                        'Student' => 'student',
-                        'Researcher' => 'researcher'
+                        'Users' => 'users', // default
+                        'Students' => 'students',
+                        'Priority Users' => 'priority-users'
                     ]
                 ],
             ])
