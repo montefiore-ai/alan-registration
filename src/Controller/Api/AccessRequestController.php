@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\AccessRequest;
 use App\Repository\AccessRequestRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\ConfigHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,15 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AccessRequestController
  * @package App\Controller\Api
  */
-class AccessRequestController extends AbstractController
+class AccessRequestController extends AbstractAPIController
 {
     /**
      * @var AccessRequestRepository
      */
     private $repository;
 
-    public function __construct(AccessRequestRepository $requestRepository)
+    public function __construct(ConfigHelper $configHelper, AccessRequestRepository $requestRepository)
     {
+        parent::__construct($configHelper);
         $this->repository = $requestRepository;
     }
 
@@ -34,6 +35,10 @@ class AccessRequestController extends AbstractController
      */
     public function getAll(): JsonResponse
     {
+        if(!$this->isDevEnvironment()) {
+            return $this->returnForbidden();
+        }
+
         $data = $this->repository->findAll();
         return $this->json($data, 200);
     }
@@ -47,6 +52,10 @@ class AccessRequestController extends AbstractController
      */
     public function getById(int $id): JsonResponse
     {
+        if(!$this->isDevEnvironment()) {
+            return $this->returnForbidden();
+        }
+
         /** @var AccessRequest $request */
         $request = $this->repository->find($id);
         if (!$request) {
@@ -55,5 +64,7 @@ class AccessRequestController extends AbstractController
 
         return $this->json($request, 200);
     }
+
+    // ...
 
 }
