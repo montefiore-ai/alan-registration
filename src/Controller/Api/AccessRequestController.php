@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\AccessRequest;
 use App\Repository\AccessRequestRepository;
 use App\Service\ConfigHelper;
+use App\Service\FreeIPA\FreeIPAService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 

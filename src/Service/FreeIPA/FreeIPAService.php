@@ -9,6 +9,8 @@ use FreeIPA\APIAccess\User;
 
 class FreeIPAService
 {
+    private $projectDir;
+
     /**
      * @var Main $ipa
      */
@@ -19,8 +21,9 @@ class FreeIPAService
      */
     private $configHelper;
 
-    public function __construct(ConfigHelper $configHelper)
+    public function __construct(string $projectDir, ConfigHelper $configHelper)
     {
+        $this->projectDir = $projectDir;
         $this->configHelper = $configHelper;
         $this->authenticate();
     }
@@ -43,7 +46,7 @@ class FreeIPAService
     private function connect(): void
     {
         $host = $this->configHelper->getParameter('IPA_HOST');
-        $cert = $this->configHelper->getParameter('IPA_CERT');
+        $cert = $this->projectDir . '/freeipa/ca.crt';
 
         $this->ipa = new Main($host, $cert);
     }

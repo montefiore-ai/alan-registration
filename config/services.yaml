@@ -30,3 +30,7 @@ services:
     App\Service\ConfigHelper:
         arguments:
             - '%kernel.project_dir%'
+
+    App\Service\FreeIPA\FreeIPAService:
+        arguments:
+            - '%kernel.project_dir%'
