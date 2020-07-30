@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AccessRequest;
 use App\Form\AccessRequestFormType;
 use App\Repository\AccessRequestRepository;
+use App\Service\FreeIPA\FreeIPAService;
 use App\Service\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +25,12 @@ class RequestController extends AbstractController
      * @param Request $request
      * @param MailHelper $mailHelper
      * @param AccessRequestRepository $requestRepository
+     * @param FreeIPAService $ipaService
      * @return Response
+     * @throws \Exception
      */
-    public function register(EntityManagerInterface $em, Request $request, MailHelper $mailHelper, AccessRequestRepository $requestRepository): Response
+    public function register(EntityManagerInterface $em, Request $request, MailHelper $mailHelper,
+                             AccessRequestRepository $requestRepository, FreeIPAService $ipaService): Response
     {
         $accessRequest = new AccessRequest();
         $form = $this->createForm(AccessRequestFormType::class);
@@ -48,7 +52,9 @@ class RequestController extends AbstractController
             if ($requestRepository->findBy(['userMail' => $userMail])) {
                 $form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
             }
-            // TODO: add FreeIPA user_search to see if username already exists.
+            if ($ipaService->getUser()->get($username) || $ipaService->getUser()->findBy('mail', $userMail)) {
+                $form->addError(new FormError('This username and/or e-mail is already in use on the Alan Cluster. Do you already have an account?'));
+            }
 
             if ($form->isValid()) {
                 $accessRequest->setFirstName($firstName);

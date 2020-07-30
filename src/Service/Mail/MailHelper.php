@@ -87,13 +87,11 @@ class MailHelper
      * It will include their created FreeIPA credentials.
      *
      * @param AccessRequest $accessRequest
+     * @param $password
      * @return void
      */
     public function sendApprovedMail(AccessRequest $accessRequest): void
     {
-        // TODO: fetch FreeIPA credentials (username, generated password, ...) and add to mail.
-        $password = 'Dr58D4d';
-
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($accessRequest->getUserMail())
@@ -101,7 +99,6 @@ class MailHelper
             ->htmlTemplate('email/request_approved.html.twig')
             ->context([
                 'request' => $accessRequest,
-                'password' => $password,
                 'host' => $this->configHelper->getParameter('MASTER_HOST'),
                 'ip' => $this->configHelper->getParameter('MASTER_IP')
             ])

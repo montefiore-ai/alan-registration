@@ -6,6 +6,7 @@ use App\Entity\AccessRequest;
 use App\Form\AccessRequestApproveFormType;
 use App\Form\AccessRequestDenyFormType;
 use App\Repository\AccessRequestRepository;
+use App\Service\FreeIPA\FreeIPAHelper;
 use App\Service\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,17 +46,16 @@ class RequestHandlerController extends AbstractController
      * @Route("/approve/{id}", name="approve_request", methods={"GET", "POST"})
      * @param string $id
      * @param Request $request
+     * @param FreeIPAHelper $ipaHelper
      * @return Response
      */
-    public function approveRequest(string $id, Request $request): Response
+    public function approveRequest(string $id, Request $request, FreeIPAHelper $ipaHelper): Response
     {
         /** @var AccessRequest $accessRequest */
         $accessRequest = $this->requestRepository->find($id);
         if (!$accessRequest) {
             return $this->render('error/request_not_found.html.twig');
         }
-
-        // TODO: implement FreeIPA account registration.
 
         $form = $this->createForm(AccessRequestApproveFormType::class);
         $form->handleRequest($request);
@@ -66,6 +66,11 @@ class RequestHandlerController extends AbstractController
             // TODO: execute linux command based on user group.
             // $group = $data['userGroup'];
 
+            // Generate a random password and create the account in FreeIPA.
+            $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());
+            $ipaHelper->addUser($accessRequest);
+
+            // Send an approval mail to the user
             $this->mailHelper->sendApprovedMail($accessRequest);
 
             $this->em->remove($accessRequest);
