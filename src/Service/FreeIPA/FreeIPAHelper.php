@@ -73,7 +73,8 @@ class FreeIPAHelper
             'uid' => $accessRequest->getUsername(),
             'mail' => $accessRequest->getUserMail(),
             'userpassword' => $accessRequest->getGeneratedPassword(),
-            'krbprincipalexpiration' => $date
+            'krbprincipalexpiration' => $date,
+            'ipasshpubkey' => '' // TODO: implement.
         );
 
         try {
