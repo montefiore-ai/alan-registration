@@ -42,10 +42,10 @@ class RequestController extends AbstractController
 
             // Execute some checks before continuing.
             if ($userMail === $supervisorMail) {
-                $form->addError(new FormError('The e-mail of the supervisor can not be the same as your own.'));
+                //$form->addError(new FormError('The e-mail of the supervisor can not be the same as your own.'));
             }
             if ($requestRepository->findBy(['userMail' => $userMail])) {
-                $form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
+                //$form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
             }
 
             if ($form->isValid()) {

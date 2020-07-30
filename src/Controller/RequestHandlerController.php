@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AccessRequest;
+use App\Form\AccessRequestApproveFormType;
 use App\Form\AccessRequestDenyFormType;
 use App\Repository\AccessRequestRepository;
 use App\Service\Mail\MailHelper;
@@ -41,11 +42,12 @@ class RequestHandlerController extends AbstractController
      * This will create the account in FreeIPA, then mail the user to notify them.
      * Finally it will remove the request-entry from the database.
      *
-     * @Route("/approve/{id}", name="approve_request", methods={"GET"})
+     * @Route("/approve/{id}", name="approve_request", methods={"GET", "POST"})
      * @param string $id
+     * @param Request $request
      * @return Response
      */
-    public function approveRequest(string $id): Response
+    public function approveRequest(string $id, Request $request): Response
     {
         /** @var AccessRequest $accessRequest */
         $accessRequest = $this->requestRepository->find($id);
@@ -53,16 +55,28 @@ class RequestHandlerController extends AbstractController
             return $this->render('error/request_not_found.html.twig');
         }
 
-        // TODO: add option to select if user is student or researcher.
         // TODO: implement FreeIPA account registration.
 
-        $this->mailHelper->sendApprovedMail($accessRequest);
+        $form = $this->createForm(AccessRequestApproveFormType::class);
+        $form->handleRequest($request);
 
-        // Delete the request from the database when the FreeIPA account has been created.
-        $this->em->remove($accessRequest);
-        $this->em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-        return $this->render('request/request_approved_admin.html.twig');
+            // TODO: execute linux command based on user group.
+            // $group = $data['userGroup'];
+
+            $this->mailHelper->sendApprovedMail($accessRequest);
+
+            $this->em->remove($accessRequest);
+            $this->em->flush();
+
+            return $this->render('request/request_approved.html.twig');
+        }
+
+        return $this->render('request/request_approve.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
