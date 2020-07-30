@@ -4,7 +4,12 @@ namespace App\Service\Mail;
 
 use App\Entity\AccessRequest;
 use App\Service\ConfigHelper;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mime\Email;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class MailHelper
 {
@@ -18,10 +23,33 @@ class MailHelper
      */
     private $configHelper;
 
-    public function __construct(MailService $mailService, ConfigHelper $configHelper)
+    /**
+     * @var BodyRenderer $bodyRenderer
+     */
+    private $bodyRenderer;
+
+    /**
+     * @var KernelInterface $appKernel
+     */
+    private $appKernel;
+
+    public function __construct(MailService $mailService, ConfigHelper $configHelper, KernelInterface $appKernel)
     {
         $this->mailService = $mailService;
         $this->configHelper = $configHelper;
+        $this->appKernel = $appKernel;
+    }
+
+    private function getBodyRenderer(): BodyRenderer
+    {
+        if ($this->bodyRenderer === null) {
+            $root = $this->appKernel->getProjectDir();
+            $loader = new FilesystemLoader($root . '/templates');
+            $twig = new Environment($loader);
+            $this->bodyRenderer = new BodyRenderer($twig);
+        }
+
+        return $this->bodyRenderer;
     }
 
     /**
@@ -32,27 +60,27 @@ class MailHelper
      */
     public function sendRequestMail(AccessRequest $accessRequest): void
     {
-        $adminEmails = ['gaetan1995@gmail.com'];
-        $description = $accessRequest->getDescription() ?: '/';
+        $adminEmails = ['gaetan@peinser.com'];
+        $approveUrl = $this->configHelper->getParameter('ROOT_URL') . '/approve/' . $accessRequest->getId();
+        $denyUrl = $this->configHelper->getParameter('ROOT_URL') . '/deny/' . $accessRequest->getId();
 
-        $mail = (new Email())
-            ->from($accessRequest->getUserMail())
+        $description = $accessRequest->getDescription() ?: '/';
+        $accessRequest->setDescription($description);
+
+        $mail = (new TemplatedEmail())
+            ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to(...$adminEmails)
-            ->cc($accessRequest->getSupervisorMail())
-            ->subject('[Alan] Access request')
-            // Some nasty in-line HTML incoming
-            ->html(
-                "<style lang='css'>.bold { font-weight: 700 !important; }</style>" .
-                "<h3>Alan access request</h3>" .
-                "<p><span class='bold'>Requested by:</span><br />{$accessRequest->getFirstName()} {$accessRequest->getLastName()}</p>" .
-                "<p><span class='bold'>Email:</span><br />{$accessRequest->getUserMail()}</p>" .
-                "<p><span class='bold'>Supervisor:</span><br />{$accessRequest->getSupervisorMail()}</p>" .
-                "<p><span class='bold'>Description:</span><br />{$description}</p>" .
-                "<p>To approve this request, go to <a href='{$this->configHelper->getParameter('ROOT_URL')}/approve/{$accessRequest->getId()}'>" .
-                "{$this->configHelper->getParameter('ROOT_URL')}/approve/{$accessRequest->getId()}</a>."
-            )
+            ->cc('gaetan1995@gmail.com')
+            ->subject('Test')
+            ->htmlTemplate('email/request.html.twig')
+            ->context([
+                'request' => $accessRequest,
+                'approveUrl' => $approveUrl,
+                'denyUrl' => $denyUrl
+            ])
             ->priority(Email::PRIORITY_NORMAL);
 
+        $this->getBodyRenderer()->render($mail);
         $this->mailService->sendMail($mail);
     }
 
@@ -68,21 +96,19 @@ class MailHelper
         // TODO: fetch FreeIPA credentials (username, generated password, ...) and add to mail.
         $username = 'jdoe';
         $password = 'Dr58D4d';
-        $ssh = 'ssh-rsa AAAABBBBCCCC jdoe@MY-COMPUTER';
 
-        $mail = (new Email())
+        $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($accessRequest->getUserMail())
             ->subject('[Alan] Access requested approved')
-            ->html(
-                "<style lang='css'>.bold { font-weight: 700 !important; }</style>" .
-                "<p>Dear<br />Your request to use the Alan Cluster has been approved.</p>" .
-                "<p class='bold'>Your credentials</p>" .
-                "<p><span class='bold'>Username:</span><br />{$username}</p>" .
-                "<p><span class='bold'>Password:</span><br >{$password}</p>" .
-                "<span class='bold'>Public SSH key:</span><br /><code>{$ssh}</code>")
+            ->htmlTemplate('email/request_approved.html.twig')
+            ->context([
+                'username' => $username,
+                'password' => $password
+            ])
             ->priority(Email::PRIORITY_NORMAL);
 
+        $this->getBodyRenderer()->render($mail);
         $this->mailService->sendMail($mail);
     }
 

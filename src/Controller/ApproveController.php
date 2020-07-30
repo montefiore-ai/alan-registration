@@ -40,10 +40,10 @@ class ApproveController extends AbstractController
      * Finally it will remove the request-entry from the database.
      *
      * @Route("/approve/{id}", name="approve_request", methods={"GET"})
-     * @param int $id
+     * @param string $id
      * @return Response
      */
-    public function approveRequest(int $id): Response
+    public function approveRequest(string $id): Response
     {
         /** @var AccessRequest $accessRequest */
         $accessRequest = $this->requestRepository->find($id);
@@ -51,6 +51,7 @@ class ApproveController extends AbstractController
             return $this->render('error/request_not_found.html.twig');
         }
 
+        // TODO: add option to select if user is student or researcher.
         // TODO: implement FreeIPA account registration.
         // TODO: implement mail send to user to notify them.
 

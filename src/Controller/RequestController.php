@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AccessRequest;
 use App\Form\AccessRequestFormType;
+use App\Repository\AccessRequestRepository;
 use App\Service\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +23,10 @@ class RequestController extends AbstractController
      * @param EntityManagerInterface $em
      * @param Request $request
      * @param MailHelper $mailHelper
+     * @param AccessRequestRepository $requestRepository
      * @return Response
      */
-    public function register(EntityManagerInterface $em, Request $request, MailHelper $mailHelper): Response
+    public function register(EntityManagerInterface $em, Request $request, MailHelper $mailHelper, AccessRequestRepository $requestRepository): Response
     {
         $accessRequest = new AccessRequest();
         $form = $this->createForm(AccessRequestFormType::class);
@@ -38,8 +40,12 @@ class RequestController extends AbstractController
             $supervisorMail = $data['supervisorMail'];
             $description = $data['description'];
 
+            // Execute some checks before continuing.
             if ($userMail === $supervisorMail) {
                 $form->addError(new FormError('The e-mail of the supervisor can not be the same as your own.'));
+            }
+            if ($requestRepository->findBy(['userMail' => $userMail])) {
+                $form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
             }
 
             if ($form->isValid()) {
@@ -54,7 +60,7 @@ class RequestController extends AbstractController
                 $em->persist($accessRequest);
                 $em->flush();
 
-                $mailHelper->sendRequestMail($accessRequest);
+                $mailHelper->sendTemplatedMail($accessRequest);
 
                 return $this->redirectToRoute(
                     'register_completed', [
