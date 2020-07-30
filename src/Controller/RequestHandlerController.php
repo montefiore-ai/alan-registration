@@ -64,7 +64,8 @@ class RequestHandlerController extends AbstractController
             $data = $form->getData();
 
             // TODO: execute linux command based on user group.
-            // $group = $data['userGroup']; // student researcher
+            // Set the user group to the selected one to calculate account expiration date.
+            $accessRequest->setUserGroup($data['userGroup']);
 
             // Generate a random password and create the account in FreeIPA.
             $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());

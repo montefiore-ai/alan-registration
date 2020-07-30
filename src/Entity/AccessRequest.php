@@ -26,12 +26,6 @@ class AccessRequest extends BaseEntity
     private $username;
 
     /**
-     * This field does not have to be persisted to the database.
-     * @var string $generatedPassword
-     */
-    private $generatedPassword;
-
-    /**
      * @ORM\Column(type="string", length=80)
      */
     private $userMail;
@@ -45,6 +39,18 @@ class AccessRequest extends BaseEntity
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * This field does not have to be persisted to the database.
+     * @var string $generatedPassword
+     */
+    private $generatedPassword;
+
+    /**
+     * This field does not have to be persisted to the database.
+     * @var string $userGroup
+     */
+    private $userGroup;
 
     public function getFirstName()
     {
@@ -74,16 +80,6 @@ class AccessRequest extends BaseEntity
     public function setUsername($username): void
     {
         $this->username = $username;
-    }
-
-    public function getGeneratedPassword(): string
-    {
-        return $this->generatedPassword;
-    }
-
-    public function setGeneratedPassword(string $generatedPassword): void
-    {
-        $this->generatedPassword = $generatedPassword;
     }
 
     public function getUserMail(): ?string
@@ -120,5 +116,25 @@ class AccessRequest extends BaseEntity
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getGeneratedPassword(): ?string
+    {
+        return $this->generatedPassword;
+    }
+
+    public function setGeneratedPassword(string $generatedPassword): void
+    {
+        $this->generatedPassword = $generatedPassword;
+    }
+
+    public function getUserGroup(): ?string
+    {
+        return $this->userGroup;
+    }
+
+    public function setUserGroup(string $userGroup): void
+    {
+        $this->userGroup = $userGroup;
     }
 }
