@@ -60,17 +60,15 @@ class MailHelper
      */
     public function sendRequestMail(AccessRequest $accessRequest): void
     {
-        $adminEmails = ['gaetan@peinser.com'];
         $approveUrl = $this->configHelper->getParameter('ROOT_URL') . '/approve/' . $accessRequest->getId();
         $denyUrl = $this->configHelper->getParameter('ROOT_URL') . '/deny/' . $accessRequest->getId();
-
         $description = $accessRequest->getDescription() ?: '/';
         $accessRequest->setDescription($description);
 
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
-            ->to(...$adminEmails)
-            ->cc('gaetan1995@gmail.com')
+            ->to($this->configHelper->getParameter('CLUSTER_ADMIN'))
+            ->cc($accessRequest->getSupervisorMail())
             ->subject('Test')
             ->htmlTemplate('email/request.html.twig')
             ->context([
@@ -105,6 +103,22 @@ class MailHelper
             ->context([
                 'username' => $username,
                 'password' => $password
+            ])
+            ->priority(Email::PRIORITY_NORMAL);
+
+        $this->getBodyRenderer()->render($mail);
+        $this->mailService->sendMail($mail);
+    }
+
+    public function sendDeniedMail(AccessRequest $accessRequest, $reason = null): void
+    {
+        $mail = (new TemplatedEmail())
+            ->from($this->configHelper->getParameter('ROOT_MAIL'))
+            ->to($accessRequest->getUserMail())
+            ->subject('[Alan] Access request denied')
+            ->htmlTemplate('email/request_denied.html.twig')
+            ->context([
+                'reason' => $reason
             ])
             ->priority(Email::PRIORITY_NORMAL);
 

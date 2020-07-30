@@ -60,7 +60,7 @@ class RequestController extends AbstractController
                 $em->persist($accessRequest);
                 $em->flush();
 
-                $mailHelper->sendTemplatedMail($accessRequest);
+                $mailHelper->sendRequestMail($accessRequest);
 
                 return $this->redirectToRoute(
                     'register_completed', [
@@ -85,7 +85,7 @@ class RequestController extends AbstractController
     public function finishRegistration(Request $request): Response
     {
         if ($request->get('completed')) {
-            return $this->render('request_submitted.html.twig');
+            return $this->render('request/request_submitted.html.twig');
         }
 
         return $this->redirectToRoute('register');

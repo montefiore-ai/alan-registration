@@ -1,0 +1,15 @@
+<style lang="css">
+    .bold {
+        font-weight: 700 !important;
+    }
+</style>
+
+<p>
+    Dear<br/>
+    Your request to use the Alan cluster has been <span class="bold">denied</span> by the cluster administrator.
+</p>
+
+{% if reason %}
+    <p>The following explanation has been given by the cluster administrator for the denial:</p>
+    <p>{{ reason }}</p>
+{% endif %}
