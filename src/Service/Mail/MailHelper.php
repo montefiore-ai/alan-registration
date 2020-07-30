@@ -68,9 +68,8 @@ class MailHelper
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($this->configHelper->getParameter('CLUSTER_ADMIN'))
-            ->addTo('joeri.hermans@doct.uliege.be')
             ->cc($accessRequest->getSupervisorMail())
-            ->subject('Test')
+            ->subject('[Alan GPU Cluster] New access request')
             ->htmlTemplate('email/request.html.twig')
             ->context([
                 'request' => $accessRequest,
@@ -93,17 +92,18 @@ class MailHelper
     public function sendApprovedMail(AccessRequest $accessRequest): void
     {
         // TODO: fetch FreeIPA credentials (username, generated password, ...) and add to mail.
-        $username = $accessRequest->getUsername();
         $password = 'Dr58D4d';
 
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($accessRequest->getUserMail())
-            ->subject('[Alan] Access requested approved')
+            ->subject('[Alan GPU Cluster] Access request approved')
             ->htmlTemplate('email/request_approved.html.twig')
             ->context([
-                'username' => $username,
-                'password' => $password
+                'request' => $accessRequest,
+                'password' => $password,
+                'host' => $this->configHelper->getParameter('MASTER_HOST'),
+                'ip' => $this->configHelper->getParameter('MASTER_IP')
             ])
             ->priority(Email::PRIORITY_NORMAL);
 
@@ -116,7 +116,7 @@ class MailHelper
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($accessRequest->getUserMail())
-            ->subject('[Alan] Access request denied')
+            ->subject('[Alan GPU Cluster] Access request denied')
             ->htmlTemplate('email/request_denied.html.twig')
             ->context([
                 'reason' => $reason
