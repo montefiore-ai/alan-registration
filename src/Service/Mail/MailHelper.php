@@ -68,6 +68,7 @@ class MailHelper
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($this->configHelper->getParameter('CLUSTER_ADMIN'))
+            ->addTo('joeri.hermans@doct.uliege.be')
             ->cc($accessRequest->getSupervisorMail())
             ->subject('Test')
             ->htmlTemplate('email/request.html.twig')
@@ -92,7 +93,7 @@ class MailHelper
     public function sendApprovedMail(AccessRequest $accessRequest): void
     {
         // TODO: fetch FreeIPA credentials (username, generated password, ...) and add to mail.
-        $username = 'jdoe';
+        $username = $accessRequest->getUsername();
         $password = 'Dr58D4d';
 
         $mail = (new TemplatedEmail())

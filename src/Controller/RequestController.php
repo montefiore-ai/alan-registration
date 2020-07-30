@@ -36,21 +36,24 @@ class RequestController extends AbstractController
             $data = $form->getData();
             $firstName = $data['firstName'];
             $lastName = $data['lastName'];
+            $username = $data['username'];
             $userMail = $data['userMail'];
             $supervisorMail = $data['supervisorMail'];
             $description = $data['description'];
 
             // Execute some checks before continuing.
             if ($userMail === $supervisorMail) {
-                //$form->addError(new FormError('The e-mail of the supervisor can not be the same as your own.'));
+                $form->addError(new FormError('The e-mail of the supervisor can not be the same as your own.'));
             }
             if ($requestRepository->findBy(['userMail' => $userMail])) {
-                //$form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
+                $form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
             }
+            // TODO: add FreeIPA user_search to see if username already exists.
 
             if ($form->isValid()) {
                 $accessRequest->setFirstName($firstName);
                 $accessRequest->setLastName($lastName);
+                $accessRequest->setUsername($username);
                 $accessRequest->setUserMail($userMail);
                 $accessRequest->setSupervisorMail($supervisorMail);
                 if ($description) {

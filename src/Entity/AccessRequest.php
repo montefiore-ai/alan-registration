@@ -21,6 +21,11 @@ class AccessRequest extends BaseEntity
     private $lastName;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $username;
+
+    /**
      * @ORM\Column(type="string", length=80)
      */
     private $userMail;
@@ -53,6 +58,16 @@ class AccessRequest extends BaseEntity
     public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username): void
+    {
+        $this->username = $username;
     }
 
     public function getUserMail(): ?string

@@ -16,6 +16,7 @@ class AccessRequestFormType extends AbstractType
         $builder
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
+            ->add('username', TextType::class)
             ->add('userMail', EmailType::class)
             ->add('supervisorMail', EmailType::class)
             ->add('description', TextareaType::class, ['required' => false])
