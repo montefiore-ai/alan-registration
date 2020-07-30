@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "800b4b31e96b01a8bfa4924db3717b0e",
+    "content-hash": "84ffc5ad6cca086210494df04ad4fbab",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1224,6 +1224,48 @@
                 "validator"
             ],
             "time": "2020-06-16T20:11:17+00:00"
+        },
+        {
+            "name": "gnumoksha/php-freeipa",
+            "version": "0.2.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://nexus.inuits.io/repository/composer/gnumoksha/php-freeipa/0.2.0/gnumoksha-php-freeipa-0.2.0.zip",
+                "reference": "1bb428df958a940af7a2b02ee89b8268ad8caabd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FreeIPA\\": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Sette",
+                    "email": "contato@tobias.ws",
+                    "homepage": "http://tobias.ws",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP library for connect and use some features of the freeIPA / Red Hat Identity Management",
+            "homepage": "https://github.com/gnumoksha/php-freeipa",
+            "keywords": [
+                "freeipa",
+                "rh idm"
+            ],
+            "time": "2015-11-24T08:06:05+00:00"
         },
         {
             "name": "laminas/laminas-code",
