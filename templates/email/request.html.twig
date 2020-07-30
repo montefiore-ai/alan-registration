@@ -25,10 +25,11 @@
     {{ request.description }}
 </p>
 
-<p style="margin-top: 20px;">
-    <a
-            href="{{ approveUrl }}"
-            style="
+{% if approveUrl %}
+    <p style="margin-top: 20px;">
+        <a
+                href="{{ approveUrl }}"
+                style="
                 display: inline-block;
                 text-decoration: none !important;
                 font-weight: 400;
@@ -46,11 +47,11 @@
                 color: #fff;
                 background-color: #007bff;
                 border-color: #007bff;">
-        Approve
-    </a>
-    <a
-            href="{{ denyUrl }}"
-            style="
+            Approve
+        </a>
+        <a
+                href="{{ denyUrl }}"
+                style="
                 display: inline-block;
                 text-decoration: none !important;
                 font-weight: 400;
@@ -69,6 +70,7 @@
                 background-color: #dc3545;
                 border-color: #dc3545;
                 margin-left: 10px;">
-        Deny
-    </a>
-</p>
+            Deny
+        </a>
+    </p>
+{% endif %}

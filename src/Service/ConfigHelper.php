@@ -5,22 +5,25 @@ namespace App\Service;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
- * A small service to load and retrieve configuration parameters for easy and fast access.
+ * A small helper class to load and retrieve configuration parameters for easy and fast access.
  *
  * Class ConfigHelper
  * @package App\Service
  */
 class ConfigHelper
 {
-    public function __construct()
+    private $projectDir;
+
+    public function __construct(string $projectDir)
     {
+        $this->projectDir = $projectDir;
         $this->loadConfig();
     }
 
     public function loadConfig(): void
     {
         $env = new Dotenv();
-        $env->load(__DIR__ . '/../../.env.local');
+        $env->load($this->projectDir . '/.env.local');
     }
 
     public function getParameter(string $param): string

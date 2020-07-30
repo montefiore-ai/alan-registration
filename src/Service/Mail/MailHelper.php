@@ -5,6 +5,7 @@ namespace App\Service\Mail;
 use App\Entity\AccessRequest;
 use App\Service\ConfigHelper;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mime\Email;
@@ -50,6 +51,7 @@ class MailHelper
         }
 
         return $this->bodyRenderer;
+
     }
 
     /**
@@ -68,13 +70,33 @@ class MailHelper
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($this->configHelper->getParameter('CLUSTER_ADMIN'))
-            ->cc($accessRequest->getSupervisorMail())
             ->subject('[Alan GPU Cluster] New access request')
             ->htmlTemplate('email/request.html.twig')
             ->context([
                 'request' => $accessRequest,
                 'approveUrl' => $approveUrl,
-                'denyUrl' => $denyUrl
+                'denyUrl' => $denyUrl,
+            ])
+            ->priority(Email::PRIORITY_NORMAL);
+
+        $this->getBodyRenderer()->render($mail);
+        $this->mailService->sendMail($mail);
+
+        // Send a separate mail to the supervisor
+        $this->sendSupervisorMail($accessRequest);
+    }
+
+    // Could and should probably re-write this entire helper class to a more efficient one.
+    public function sendSupervisorMail(AccessRequest $accessRequest): void
+    {
+        $mail = (new TemplatedEmail())
+            ->from($this->configHelper->getParameter('ROOT_MAIL'))
+            ->to($accessRequest->getSupervisorMail())
+            ->subject('[Alan GPU Cluster] New access request')
+            ->htmlTemplate('email/request.html.twig')
+            ->context([
+                'request' => $accessRequest,
+                'approveUrl' => null
             ])
             ->priority(Email::PRIORITY_NORMAL);
 
