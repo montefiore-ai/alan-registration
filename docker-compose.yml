@@ -32,7 +32,6 @@ services:
             - .:/application
         command: install
 
-    # Networking
-    networks:
-        default:
-            driver: bridge
+networks:
+    default:
+        driver: bridge
