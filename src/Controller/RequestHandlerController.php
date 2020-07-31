@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RequestHandlerController extends AbstractController
@@ -31,12 +32,17 @@ class RequestHandlerController extends AbstractController
      * @var MailHelper
      */
     private $mailHelper;
+    /**
+     * @var KernelInterface
+     */
+    private KernelInterface $kernel;
 
-    public function __construct(AccessRequestRepository $requestRepository, EntityManagerInterface $em, MailHelper $mailHelper)
+    public function __construct(KernelInterface $kernel, AccessRequestRepository $requestRepository, EntityManagerInterface $em, MailHelper $mailHelper)
     {
         $this->requestRepository = $requestRepository;
         $this->em = $em;
         $this->mailHelper = $mailHelper;
+        $this->kernel = $kernel;
     }
 
     /**
@@ -70,11 +76,14 @@ class RequestHandlerController extends AbstractController
 
             // Generate a random password and create the account in FreeIPA.
             $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());
-            $ipaHelper->addUser($accessRequest);
 
             // Add user to appropriate slurm group
             $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
-            $accessRequest->setPrivateKey($slurmHelper->generateSshKey($accessRequest->getUserMail()));
+            $slurmHelper->generateSshKey($accessRequest->getUserMail(), $accessRequest->getUsername());
+            $accessRequest->setPrivateKey($this->kernel->getProjectDir() . '/' . $accessRequest->getUsername());
+            die();
+
+            $ipaHelper->addUser($accessRequest);
 
             // Send an approval mail to the user
             $this->mailHelper->sendApprovedMail($accessRequest);

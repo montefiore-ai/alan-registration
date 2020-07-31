@@ -144,7 +144,7 @@ class AccessRequest extends BaseEntity
         $this->userGroup = $userGroup;
     }
 
-    public function getPrivateKey(): string
+    public function getPrivateKey(): ?string
     {
         return $this->privateKey;
     }
