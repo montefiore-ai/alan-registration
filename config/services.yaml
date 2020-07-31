@@ -35,6 +35,10 @@ services:
         arguments:
             - '%kernel.project_dir%'
 
+    App\Service\FreeIPA\FreeIPAHelper:
+        arguments:
+            - '%kernel.project_dir%'
+
     App\Service\CommandExecutor\CommandExecutorService:
         arguments:
             - '%kernel.project_dir%'

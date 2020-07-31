@@ -32,17 +32,11 @@ class SlurmHelper
      * Creates a temp directory on the server and generates a new ssh key with the user's email.
      *
      * @param string $email
-     * @return string
+     * @param string $username
+     * @return void
      */
-    public function generateSshKey(string $email): string
+    public function generateSshKey(string $email, string $username): void
     {
-        // Generate a new temp directory and generate an SSH key.
-        $tmpDir = $this->executorService->removeTrailing($this->executorService->executeCommand([
-            'cd "$(mktemp -d)"',
-            'pwd',
-            'ssh-keygen -C "' . $email . '" -t rsa -b 4096 -f alan -N "" > /dev/null'
-        ])->getOutput());
-
-        return $tmpDir . '/alan';
+        shell_exec('yes | ssh-keygen -C "' . $email . '" -t rsa -b 4096 -f ../' . $username . ' -N "" > /dev/null');
     }
 }

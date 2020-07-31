@@ -42,8 +42,7 @@ class SshTestController extends AbstractAPIController
      */
     public function generateSsh(): JsonResponse
     {
-        $res = $this->slurmHelper->generateSshKey("gaetan@peinser.com");
-
+        $res = $this->slurmHelper->generateSshKey("gaetan@peinser.com", 'gaetand');
         return $this->json(['data' => $res], 200);
     }
 

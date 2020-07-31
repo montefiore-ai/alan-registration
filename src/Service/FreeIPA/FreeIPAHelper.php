@@ -12,9 +12,12 @@ class FreeIPAHelper
      */
     private $ipaService;
 
-    public function __construct(FreeIPAService $ipaService)
+    private ?string $projectDir;
+
+    public function __construct(string $projectDir, FreeIPAService $ipaService)
     {
         $this->ipaService = $ipaService;
+        $this->projectDir = $projectDir;
     }
 
     public function generatePassword()
@@ -66,6 +69,7 @@ class FreeIPAHelper
     public function addUser(AccessRequest $accessRequest): bool
     {
         $date = $this->setExpirationDate($this->getExpirationValue($accessRequest->getUserGroup()));
+        $pub = file_get_contents($this->projectDir . '/' . $accessRequest->getUsername() . '.pub');
 
         $data = array(
             'givenname' => $accessRequest->getFirstName(),
@@ -74,7 +78,7 @@ class FreeIPAHelper
             'mail' => $accessRequest->getUserMail(),
             'userpassword' => $accessRequest->getGeneratedPassword(),
             'krbprincipalexpiration' => $date,
-            'ipasshpubkey' => '' // TODO: implement.
+            'ipasshpubkey' => file_get_contents($this->projectDir . '/' . $accessRequest->getUsername() . '.pub')
         );
 
         try {
