@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-COPY alan-web /var/www
-WORKDIR /var/www
+COPY alan-registration /application
+WORKDIR /application
 
 RUN composer install && composer update
 RUN php bin/console cache:clear --env=prod

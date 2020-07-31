@@ -8,7 +8,7 @@ services:
         networks:
             - default
         ports:
-            - "9001:80"
+            - "9090:80"
         restart: always
         depends_on:
             - php
@@ -16,21 +16,14 @@ services:
             - .:/application
             - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
 
-    # PHP-FPM Service
+    # PHP-FPM Service and our application
     php:
-        build: './.docker/Dockerfile-php'
+        build: './.docker/Dockerfile'
         networks:
             - default
         restart: always
         volumes:
             - .:/application
-
-    # Composer
-    composer:
-        image: composer
-        volumes:
-            - .:/application
-        working_dir: /application
 
 networks:
     default:
