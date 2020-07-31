@@ -69,7 +69,6 @@ class FreeIPAHelper
     public function addUser(AccessRequest $accessRequest): bool
     {
         $date = $this->setExpirationDate($this->getExpirationValue($accessRequest->getUserGroup()));
-        $pub = file_get_contents($this->projectDir . '/' . $accessRequest->getUsername() . '.pub');
 
         $data = array(
             'givenname' => $accessRequest->getFirstName(),
