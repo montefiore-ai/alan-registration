@@ -1,6 +1,6 @@
 {
     "name": "montefiore-ai/alan-registration",
-    "description": "The web interface for handling registrations on the Alan cluster.",
+    "description": "A web interface for handling registrations on the Alan cluster and automating user management for FreeIPA.",
     "authors": [
         {
             "name": "Gaetan Dumortier",

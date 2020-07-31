@@ -109,7 +109,6 @@ class MailHelper
      * It will include their created FreeIPA credentials.
      *
      * @param AccessRequest $accessRequest
-     * @param $password
      * @return void
      */
     public function sendApprovedMail(AccessRequest $accessRequest): void
@@ -124,7 +123,7 @@ class MailHelper
                 'host' => $this->configHelper->getParameter('MASTER_HOST'),
                 'ip' => $this->configHelper->getParameter('MASTER_IP')
             ])
-            // TODO: Attach from path alan private key
+            ->attachFromPath($accessRequest->getPrivateKey())
             ->priority(Email::PRIORITY_NORMAL);
 
         $this->getBodyRenderer()->render($mail);

@@ -52,6 +52,12 @@ class AccessRequest extends BaseEntity
      */
     private $userGroup;
 
+    /**
+     * Path to private ssh key (generated after approval)
+     * @var string $privateKey
+     */
+    private $privateKey;
+
     public function getFirstName()
     {
         return $this->firstName;
@@ -136,5 +142,15 @@ class AccessRequest extends BaseEntity
     public function setUserGroup(string $userGroup): void
     {
         $this->userGroup = $userGroup;
+    }
+
+    public function getPrivateKey(): string
+    {
+        return $this->privateKey;
+    }
+
+    public function setPrivateKey(string $privateKey): void
+    {
+        $this->privateKey = $privateKey;
     }
 }
