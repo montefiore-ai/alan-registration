@@ -7,6 +7,9 @@ services:
       context: ./.docker/database
     env_file:
       - .env
+    volumes:
+      - ./.docker/database/data:/var/lib/mysql
+
 
   php-fpm:
     build:
