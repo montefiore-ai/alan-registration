@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  database:
+    build:
+      context: ./.docker/database
+    env_file:
+      - .env
+    volumes:
+      - ./.docker/database/data:/var/lib/mysql
+
+
+  php-fpm:
+    build:
+      context: ./.docker/php-fpm
+    env_file:
+      - .env
+    depends_on:
+      - database
+    volumes:
+      - .:/var/www
+
+  nginx:
+    build:
+      context: ./.docker/nginx
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./.docker/nginx/sites-available/:/etc/nginx/sites-available
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm
+    ports:
+      - "9090:80"
