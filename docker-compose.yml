@@ -18,7 +18,7 @@ services:
 
     # PHP-FPM Service
     php:
-        build: './docker/Dockerfile-php'
+        build: './.docker/Dockerfile-php'
         networks:
             - default
         restart: always
