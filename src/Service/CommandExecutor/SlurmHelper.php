@@ -24,7 +24,7 @@ class SlurmHelper
     public function addUserToSlurmGroup(string $username, string $group): string
     {
         return $this->executorService
-            ->executeCommand('yes | sacctmgr add user ' . $username . ' account=' . $group)
+            ->executeCommand('yes | sacctmgr add user ' . $username . ' account=' . $group . '')
             ->getOutput();
     }
 
