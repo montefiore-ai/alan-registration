@@ -4,9 +4,8 @@ services:
 
     # NGINX Service
     nginx:
-        image: nginx:latest
-        networks:
-            - default
+        image: richarvey/nginx-php-fpm:latest
+        restart: always
         ports:
             - "9090:80"
         restart: always
@@ -15,22 +14,11 @@ services:
         volumes:
             - .:/application
             - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
-        command: > bash -c "
+        command: bash -c "
+                 apt-get install -y --no-install-recommends git zlib1g-dev libxml2-dev libzip-dev libxslt-dev &&
+                 docker-php-ext-install zip xsl intl pdo pdo_mysql &&
                  curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer &&
                  cd /application && composer install && composer update &&
                  php bin/console cache:clear --env=prod &&
                  php bin/console cache:warmup --env=prod &&
                  chmod -R 777 var/log"
-
-    # PHP-FPM Service and our application
-    php:
-        build: './.docker/Dockerfile'
-        networks:
-            - default
-        restart: always
-        volumes:
-            - .:/application
-
-networks:
-    default:
-        driver: bridge
