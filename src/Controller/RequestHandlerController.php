@@ -80,8 +80,7 @@ class RequestHandlerController extends AbstractController
             // Add user to appropriate slurm group
             $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
             $slurmHelper->generateSshKey($accessRequest->getUserMail(), $accessRequest->getUsername());
-            $accessRequest->setPrivateKey( $this->kernel->getProjectDir() . '/keys/' . $accessRequest->getUsername());
-            die();
+            $accessRequest->setPrivateKey($this->kernel->getProjectDir() . '/keys/' . $accessRequest->getUsername());
 
             $ipaHelper->addUser($accessRequest);
 
