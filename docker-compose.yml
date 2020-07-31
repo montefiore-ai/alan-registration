@@ -5,6 +5,8 @@ services:
     # NGINX Service
     nginx:
         image: nginx:alpine
+        networks:
+            - default
         ports:
             - "9001:80"
         restart: always
@@ -17,6 +19,8 @@ services:
     # PHP-FPM Service
     php:
         image: php:7-fpm
+        networks:
+            - default
         restart: always
         volumes:
             - .:/application
@@ -27,3 +31,8 @@ services:
         volumes:
             - .:/application
         command: install
+
+    # Networking
+    networks:
+        default:
+            driver: bridge
