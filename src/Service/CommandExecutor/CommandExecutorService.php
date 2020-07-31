@@ -21,6 +21,7 @@ class CommandExecutorService
     public function __construct(string $projectDir = null, string $user = null, string $host = null)
     {
         $this->process = Ssh::create($user, $host)
+            ->disableStrictHostKeyChecking()
             ->usePrivateKey($projectDir . '/alan-config/ssh/slurm');
     }
 
