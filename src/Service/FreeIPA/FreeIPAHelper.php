@@ -77,7 +77,7 @@ class FreeIPAHelper
             'mail' => $accessRequest->getUserMail(),
             'userpassword' => $accessRequest->getGeneratedPassword(),
             'krbprincipalexpiration' => $date,
-            'ipasshpubkey' => file_get_contents($this->projectDir . '/' . $accessRequest->getUsername() . '.pub')
+            'ipasshpubkey' => file_get_contents($this->projectDir . '/keys/' . $accessRequest->getUsername() . '.pub')
         );
 
         try {
