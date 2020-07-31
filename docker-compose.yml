@@ -30,6 +30,7 @@ services:
         image: composer
         volumes:
             - .:/application
+        working_dir: /application
         command: install
 
 networks:
