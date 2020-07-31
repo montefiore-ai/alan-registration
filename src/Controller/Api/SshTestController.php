@@ -32,7 +32,7 @@ class SshTestController extends AbstractAPIController
      */
     public function addUserToSlurmGroup(): JsonResponse
     {
-        $res = $this->slurmHelper->addUserToSlurmGroup('gaetand2', 'priority-users');
+        $res = $this->slurmHelper->addUserToSlurmGroup('test', 'priority-users');
         return $this->json(['data' => $res], 200);
     }
 
