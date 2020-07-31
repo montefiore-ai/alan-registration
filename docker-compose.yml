@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+    # NGINX Service
+    nginx:
+        image: nginx:alpine
+        ports:
+            - "9001:80"
+        restart: always
+        depends_on:
+            - php
+        volumes:
+            - .:/application
+            - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
+
+    # PHP-FPM Service
+    php:
+        image: php:7-fpm
+        restart: always
+        volumes:
+            - .:/application
+
+    # Composer
+    composer:
+        image: composer
+        volumes:
+            - .:/application
+        command: install
