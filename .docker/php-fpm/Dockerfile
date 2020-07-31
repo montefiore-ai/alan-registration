@@ -5,5 +5,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends git zlib1g-dev 
 RUN docker-php-ext-install zip xsl intl pdo pdo_mysql
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
-CMD cp /var/www/.env /var/www/.env.local ; composer install ; wait-for-it database:3306 -- bin/console doctrine:create ; php-fpm
+CMD cp /var/www/.env /var/www/.env.local ; composer install ; wait-for-it database:3306 -- bin/console doctrine:schema:create ; php-fpm
 EXPOSE 9000
