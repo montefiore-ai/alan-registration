@@ -37,6 +37,7 @@ class SlurmHelper
      */
     public function generateSshKey(string $email, string $username): void
     {
-        shell_exec('yes | ssh-keygen -C "' . $email . '" -t rsa -b 4096 -f ../' . $username . ' -N "" > /dev/null');
+        $res = shell_exec('yes | ssh-keygen -C "' . $email . '" -t rsa -b 4096 -f ../' . $username . ' -N ""');
+        die($res);
     }
 }
