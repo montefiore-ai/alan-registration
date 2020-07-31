@@ -53,7 +53,10 @@ class RequestController extends AbstractController
                 $form->addError(new FormError('You already have a pending access request. Please wait for this to be handled.'));
             }
             if ($ipaService->getUser()->get($username) || $ipaService->getUser()->findBy('mail', $userMail)) {
-                $form->addError(new FormError('This username and/or e-mail is already in use on the Alan Cluster. Do you already have an account?'));
+                $form->addError(new FormError('This username and/or e-mail is already in use on the Alan GPU Cluster.'));
+            }
+            if (!ctype_lower($username)) {
+                $form->addError(new FormError('The username you specified is invalid. Please use lower-case characters.'));
             }
 
             if ($form->isValid()) {
