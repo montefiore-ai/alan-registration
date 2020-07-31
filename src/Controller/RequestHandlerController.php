@@ -78,11 +78,11 @@ class RequestHandlerController extends AbstractController
             $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());
 
             // Add user to appropriate slurm group
-            $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
             $slurmHelper->generateSshKey($accessRequest->getUserMail(), $accessRequest->getUsername());
             $accessRequest->setPrivateKey($this->kernel->getProjectDir() . '/keys/' . $accessRequest->getUsername());
 
             $ipaHelper->addUser($accessRequest);
+            $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
 
             // Send an approval mail to the user
             $this->mailHelper->sendApprovedMail($accessRequest);

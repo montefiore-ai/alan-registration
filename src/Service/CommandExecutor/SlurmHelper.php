@@ -19,14 +19,11 @@ class SlurmHelper
      *
      * @param string $username
      * @param string $group
-     * @return string
+     * @return void
      */
-    public function addUserToSlurmGroup(string $username, string $group): string
+    public function addUserToSlurmGroup(string $username, string $group): void
     {
-        dd($username .'-'. $group);
-        return $this->executorService
-            ->executeCommand('yes | sacctmgr add user ' . $username . ' account=' . $group . '')
-            ->getOutput();
+        $this->executorService->executeCommand('yes | sacctmgr add user ' . $username . ' account=' . $group . '');
     }
 
     /**
