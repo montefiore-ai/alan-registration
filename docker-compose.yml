@@ -5,10 +5,8 @@ services:
     # NGINX Service
     nginx:
         image: richarvey/nginx-php-fpm:latest
-        restart: always
         ports:
             - "9090:80"
-        restart: always
         volumes:
             - .:/application
             - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
