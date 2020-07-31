@@ -15,6 +15,12 @@ services:
         volumes:
             - .:/application
             - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
+        command: > bash -c "
+                 curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer &&
+                 cd /application && composer install && composer update &&
+                 php bin/console cache:clear --env=prod &&
+                 php bin/console cache:warmup --env=prod &&
+                 chmod -R 777 var/log"
 
     # PHP-FPM Service and our application
     php:
