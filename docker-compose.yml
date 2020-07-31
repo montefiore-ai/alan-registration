@@ -9,8 +9,6 @@ services:
         ports:
             - "9090:80"
         restart: always
-        depends_on:
-            - php
         volumes:
             - .:/application
             - .docker/nginx.conf:/etc/nginx/conf.d/application.conf
