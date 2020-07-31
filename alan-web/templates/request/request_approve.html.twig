@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8 text-center">
+                <h3 class="p-4">Approve request</h3>
+
+                <p>This request will be approved and the user will receive an e-mail with their credentials.</p>
+
+                <p>Please select the group this user belongs to:</p>
+
+                {{ form_start(form) }}
+                <p>{{ form_widget(form.userGroup) }}</p>
+                {{ form_widget(form.approve, {'attr': {'class': 'btn btn-block btn-outline-dark'}}) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

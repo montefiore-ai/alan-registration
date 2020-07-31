@@ -1,0 +1,12 @@
+<p>
+    Hello {{ request.firstName }}
+</p>
+
+<p>
+    Your request to use the Alan cluster has been <span style="font-weight: 700 !important;">denied</span> by the cluster administrator.
+</p>
+
+{% if reason %}
+    <p>The following explanation has been given by the cluster administrator for the denial:</p>
+    <p>{{ reason }}</p>
+{% endif %}
