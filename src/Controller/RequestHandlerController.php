@@ -6,6 +6,7 @@ use App\Entity\AccessRequest;
 use App\Form\AccessRequestApproveFormType;
 use App\Form\AccessRequestDenyFormType;
 use App\Repository\AccessRequestRepository;
+use App\Service\CommandExecutor\SlurmHelper;
 use App\Service\FreeIPA\FreeIPAHelper;
 use App\Service\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,9 +48,10 @@ class RequestHandlerController extends AbstractController
      * @param string $id
      * @param Request $request
      * @param FreeIPAHelper $ipaHelper
+     * @param SlurmHelper $slurmHelper
      * @return Response
      */
-    public function approveRequest(string $id, Request $request, FreeIPAHelper $ipaHelper): Response
+    public function approveRequest(string $id, Request $request, FreeIPAHelper $ipaHelper, SlurmHelper $slurmHelper): Response
     {
         /** @var AccessRequest $accessRequest */
         $accessRequest = $this->requestRepository->find($id);
@@ -63,13 +65,16 @@ class RequestHandlerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            // TODO: execute linux command based on user group.
             // Set the user group to the selected one to calculate account expiration date.
             $accessRequest->setUserGroup($data['userGroup']);
 
             // Generate a random password and create the account in FreeIPA.
             $accessRequest->setGeneratedPassword($ipaHelper->generatePassword());
             $ipaHelper->addUser($accessRequest);
+
+            // Add user to appropriate slurm group
+            $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
+            $accessRequest->setPrivateKey($slurmHelper->generateSshKey($accessRequest->getUserMail()));
 
             // Send an approval mail to the user
             $this->mailHelper->sendApprovedMail($accessRequest);
@@ -103,7 +108,6 @@ class RequestHandlerController extends AbstractController
             return $this->render('error/request_not_found.html.twig');
         }
 
-        // TODO: check form submit for reason. Proceed with mail send on submit
         $form = $this->createForm(AccessRequestDenyFormType::class);
         $form->handleRequest($request);
 

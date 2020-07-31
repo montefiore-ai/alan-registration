@@ -7,24 +7,42 @@ class SlurmHelper
     /**
      * @var CommandExecutorService
      */
-    private $executorService;
+    private CommandExecutorService $executorService;
 
     public function __construct(CommandExecutorService $executorService)
     {
         $this->executorService = $executorService;
     }
 
-    public function showAssoc(): string
+    /**
+     * Add the specified user to the chosen Slurm group.
+     *
+     * @param string $username
+     * @param string $group
+     * @return string
+     */
+    public function addUserToSlurmGroup(string $username, string $group): string
     {
-        return $this->executorService->executeCommand('sacctmgr show assoc')->getOutput();
+        return $this->executorService
+            ->executeCommand('yes | sacctmgr add user ' . $username . ' account=' . $group)
+            ->getOutput();
     }
 
-    public function test(): string
+    /**
+     * Creates a temp directory on the server and generates a new ssh key with the user's email.
+     *
+     * @param string $email
+     * @return string
+     */
+    public function generateSshKey(string $email): string
     {
-        return $this->executorService->executeCommand([
-            'ls',
-            'pwd'
-        ])->getOutput();
-    }
+        // Generate a new temp directory and generate an SSH key.
+        $tmpDir = $this->executorService->removeTrailing($this->executorService->executeCommand([
+            'cd "$(mktemp -d)"',
+            'pwd',
+            'ssh-keygen -C "' . $email . '" -t rsa -b 4096 -f alan -N "" > /dev/null'
+        ])->getOutput());
 
+        return $tmpDir . '/alan';
+    }
 }

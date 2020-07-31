@@ -11,12 +11,12 @@ class CommandExecutorService
     /**
      * @var CommandExecutorService $instance
      */
-    private static $instance;
+    private static CommandExecutorService $instance;
 
     /**
      * @var Ssh $process
      */
-    private $process;
+    private Ssh $process;
 
     public function __construct(string $projectDir = null, string $user = null, string $host = null)
     {
@@ -31,6 +31,11 @@ class CommandExecutorService
         }
 
         return self::$instance;
+    }
+
+    public function getProcess(): Ssh
+    {
+        return $this->process;
     }
 
     /**
@@ -48,6 +53,11 @@ class CommandExecutorService
         }
 
         return $process;
+    }
+
+    public function removeTrailing(string $val): string
+    {
+        return substr($val, 0, -1);
     }
 
 }
