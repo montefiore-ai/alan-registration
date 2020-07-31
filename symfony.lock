@@ -183,6 +183,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "spatie/ssh": {
+        "version": "1.4.0"
+    },
     "staempfli/freeipa": {
         "version": "1.0.0"
     },

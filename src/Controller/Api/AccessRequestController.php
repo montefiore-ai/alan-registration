@@ -35,7 +35,7 @@ class AccessRequestController extends AbstractAPIController
      */
     public function getAll(): JsonResponse
     {
-        if(!$this->isDevEnvironment()) {
+        if (!$this->isDevEnvironment()) {
             return $this->returnForbidden();
         }
 
@@ -46,13 +46,13 @@ class AccessRequestController extends AbstractAPIController
     /**
      * Fetch a specific request by the provided ID and return it as JSON.
      *
-     * @Route("/{id}", name="by_id", methods={"GET"})
+     * @Route("/id/{id}", name="by_id", methods={"GET"})
      * @param int $id
      * @return JsonResponse
      */
     public function getById(int $id): JsonResponse
     {
-        if(!$this->isDevEnvironment()) {
+        if (!$this->isDevEnvironment()) {
             return $this->returnForbidden();
         }
 
