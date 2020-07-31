@@ -18,7 +18,7 @@ services:
 
     # PHP-FPM Service
     php:
-        image: php:7-fpm
+        build: './docker/Dockerfile-php'
         networks:
             - default
         restart: always
@@ -31,7 +31,6 @@ services:
         volumes:
             - .:/application
         working_dir: /application
-        command: install
 
 networks:
     default:
