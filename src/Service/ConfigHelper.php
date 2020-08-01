@@ -23,7 +23,7 @@ class ConfigHelper
     public function loadConfig(): void
     {
         $env = new Dotenv();
-        $env->load($this->projectDir . '/.env.local');
+        $env->load($this->projectDir . '/.env');
     }
 
     public function getParameter(string $param): string
