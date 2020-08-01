@@ -35,7 +35,7 @@ class RequestHandlerController extends AbstractController
     /**
      * @var KernelInterface
      */
-    private KernelInterface $kernel;
+    private $kernel;
 
     public function __construct(KernelInterface $kernel, AccessRequestRepository $requestRepository, EntityManagerInterface $em, MailHelper $mailHelper)
     {

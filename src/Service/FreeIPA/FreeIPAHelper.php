@@ -12,7 +12,7 @@ class FreeIPAHelper
      */
     private $ipaService;
 
-    private ?string $projectDir;
+    private $projectDir;
 
     public function __construct(string $projectDir, FreeIPAService $ipaService)
     {

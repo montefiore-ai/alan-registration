@@ -7,7 +7,7 @@ class SlurmHelper
     /**
      * @var CommandExecutorService
      */
-    private CommandExecutorService $executorService;
+    private $executorService;
 
     public function __construct(CommandExecutorService $executorService)
     {

@@ -11,12 +11,12 @@ class CommandExecutorService
     /**
      * @var CommandExecutorService $instance
      */
-    private static CommandExecutorService $instance;
+    private static $instance;
 
     /**
      * @var Ssh $process
      */
-    private Ssh $process;
+    private $process;
 
     public function __construct(string $projectDir = null, string $user = null, string $host = null)
     {
