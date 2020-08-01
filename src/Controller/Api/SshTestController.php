@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Service\CommandExecutor\SlurmHelper;
 use App\Service\ConfigHelper;
+use App\Service\FreeIPA\FreeIPAHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,22 +29,20 @@ class SshTestController extends AbstractAPIController
 
     /**
      * @Route("/slurm/addgroup", name="slurm_assoc")
-     * @return JsonResponse
+     * @return void
      */
-    public function addUserToSlurmGroup(): JsonResponse
+    public function addUserToSlurmGroup(): void
     {
-        $res = $this->slurmHelper->addUserToSlurmGroup('test', 'priority-users');
-        return $this->json(['data' => $res], 200);
+        $this->slurmHelper->addUserToSlurmGroup('test', 'priority-users');
     }
 
     /**
      * @Route("/generate")
-     * @return JsonResponse
+     * @return void
      */
-    public function generateSsh(): JsonResponse
+    public function generateSsh(): void
     {
-        $res = $this->slurmHelper->generateSshKey("gaetan@peinser.com", 'gaetand');
-        return $this->json(['data' => $res], 200);
+        $this->slurmHelper->generateSshKey("gaetan@peinser.com", 'gaetand');
     }
 
 }
