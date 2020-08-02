@@ -1,30 +1,20 @@
 <p>
-    Hello {{ request.firstName }},
+    Dear {{ request.firstName }},
 </p>
 
 <p>
-    Your request to use the Alan cluster has been approved.
+    Your request to use the Alan GPU cluster has been approved.
 </p>
 
 <p>(This is an automated e-mail, do not reply.)</p>
 
-<p style="font-weight: 700 !important;">Your credentials</p>
+<p style="font-weight: 700 !important;">Your credentials:</p>
 
-<p>
-    <span style="font-weight: 700 !important;">Username</span><br/>
-    {{ request.username }}
-</p>
-
-<p>
-    <span style="font-weight: 700 !important;">Password</span><br/>
-    {{ request.generatedPassword }}
-</p>
-
-<p>
-    <span style="font-weight: 700 !important;">Host</span><br/>
-    {{ host }} ({{ ip }})<br/>
-    (from within the ULiège network only or through its VPN)
-</p>
+<ul>
+    <li>Username: {{ request.username }}</li>
+    <li>Password: {{ request.generatedPassword }} (single use)</li>
+    <li>Host: {{ host }} (or {{ ip }}; from within the ULiège network only or through its VPN)</li>
+</ul>
 
 <p>
     Please check the documentation on<br/>
