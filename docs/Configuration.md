@@ -38,8 +38,9 @@ Please modify the configuration parameters accordingly before moving the applica
 | Parameter         | Explanation |
 |-----------        |-------------|
 | MAILER_DSN        | The DSN connection string to connect to the mailing server. [More Info](https://symfony.com/doc/current/mailer.html#transport-setup)
-> If you wish to continue using the Google Mailer plugin (__mainly used for debugging_), you could modify following parameters accordingly:
->
-> MAILER_USER: Full gmail e-mail address (_including @gmail.com_)
->
-> MAILER_PASS: Password of the Gmail account.
+##### If you wish to continue using the Google Mailer plugin (_mainly used for debugging_), you could modify following parameters accordingly:
+
+| Parameter | Explanation |
+|-----------|-------------|
+| MAILER_USER | Full Gmail e-mail address (_including @gmail.com_)
+| MAILER_PASS | Password of the Gmail account
