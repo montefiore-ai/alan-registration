@@ -69,6 +69,24 @@ If you change or add a usergroup in Slurm, please make sure to modify/add their 
 
 ## Installation
 
+### Required certificates and SSH keys
+
+#### Installing FreeIPA certificate
+
+You can obtain the FreeIPA CA certificate via __https://<IPA_HOST>/ipa/config/ca.crt__.
+
+Save this certificate in the ```alan-config/freeipa``` directory inside the project root (named ``ca.crt``). It is required to establish a secure connection
+with the FreeIPA server.
+
+#### Installing Slurm private key
+
+Download the private SSH key of the slurm user (```SLURM_USER``` _in configuration file_) and save it as ```slurm```
+inside the ```alan-config/ssh``` directory.
+
+When you did above steps correctly, you should end up with the following structure:
+* <project-root>/alan-config/freeipa/ca.crt
+* <project-root>/alan-config/ssh/slurm
+
 ## Deployment
 
 ## Workflow
