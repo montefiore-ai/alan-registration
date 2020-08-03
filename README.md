@@ -75,7 +75,7 @@ If you change or add a usergroup in Slurm, please make sure to modify/add their 
 
 You can obtain the FreeIPA CA certificate via __https://<IPA_HOST>/ipa/config/ca.crt__.
 
-Save this certificate in the ```alan-config/freeipa``` directory inside the project root (named ``ca.crt``). It is required to establish a secure connection
+Save this certificate in the ```alan-config/freeipa``` directory inside the project root (_named_ ``ca.crt``). It is required to establish a secure connection
 with the FreeIPA server.
 
 #### Installing Slurm private key
