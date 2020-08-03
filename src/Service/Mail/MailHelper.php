@@ -129,7 +129,7 @@ class MailHelper
         $this->getBodyRenderer()->render($mail);
         $this->mailService->sendMail($mail);
 
-        shell_exec('rm -rf ../' . $accessRequest->getUsername() . ' ../' . $accessRequest->getUsername() . '.pub');
+        shell_exec('rm -rf ../keys/' . $accessRequest->getUsername() . ' ../keys/' . $accessRequest->getUsername() . '.pub');
     }
 
     public function sendDeniedMail(AccessRequest $accessRequest, $reason = null): void
