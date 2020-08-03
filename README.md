@@ -57,7 +57,7 @@ If you wish to use the Google Mailer plugin (_mainly used for debugging_), you c
 | MAILER_USER | Full Gmail e-mail address (_including @gmail.com_)
 | MAILER_PASS | Password of the Gmail account
 
-### Scrum user groups
+### Slurm user groups
 
 The user groups which are used for Slurm are defined in ```src/Form/AccessRequestApproveFormType.php```
 and in ```src/Service/FreeIPA/FreeIPAHelper.php:getExpirationValue()```.
