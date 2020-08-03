@@ -21,7 +21,7 @@
                 <div class="col">
                     <div class="form-group">
                         {{ form_label(form.firstName) }}
-                        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'autofocus': ''} }) }}
                     </div>
                 </div>
 
@@ -35,7 +35,7 @@
                 <div class="col">
                     <div class="form-group">
                         {{ form_label(form.username) }}
-                        {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'tabindex': '-1'} }) }}
                     </div>
                 </div>
             </div>
