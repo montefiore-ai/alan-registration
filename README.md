@@ -1,14 +1,12 @@
-# Alan Registrations web application
+# Usage
 
-## Usage
-
-### Configuration
+## Configuration
 
 Please modify the configuration parameters accordingly before deploying the application in production.
 
 > The configuration parameters can be found in the ```.env``` file.
 
-#### Main configuration
+### Main configuration
 
 | Parameter | Explanation |
 |-----------|-------------|
@@ -22,7 +20,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 
 > _Please note that the web application will not display any error messages or stacktraces when APP_ENV is set to prod._
 
-#### FreeIPA configuration
+### FreeIPA configuration
 
 | Parameter | Explanation |
 |-----------|-------------|
@@ -30,7 +28,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 | IPA_ADMIN_USER| The username of the FreeIPA administrator account
 | IPA_ADMIN_PASS| The password of the FreeIPA administrator account
 
-#### Database configuration
+### Database configuration
 
 | Parameter         | Explanation |
 |-----------        |-------------|
@@ -39,7 +37,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 | MYSQL_PASSWORD    | The password of the above user
 | MYSQL_ROOT_PASSWORD| The password of the MySQL root user
 
-#### SMTP configuration
+### SMTP configuration
 | Parameter         | Explanation |
 |-----------        |-------------|
 | MAILER_DSN        | The DSN connection string used to connect with a mailing server. [More Info](https://symfony.com/doc/current/mailer.html#transport-setup)
@@ -51,22 +49,22 @@ If you wish to continue using the Google Mailer plugin (_mainly used for debuggi
 | MAILER_USER | Full Gmail e-mail address (_including @gmail.com_)
 | MAILER_PASS | Password of the Gmail account
 
-### Installation
+## Installation
 
-### Deployment
+## Deployment
 
 ## Workflow
 
-#### Submitting a request
+### Submitting a request
 When a user submits a request to use the Alan cluster, an e-mail will be sent to the cluster administrator.
 
 The cluster administrator will have the option to either approve or deny the user's request.
 
-#### Approving a request
+### Approving a request
 When the administrator approves a certain request, the web application will create a new user through
 the FreeIPA API. The user who issued the request will get notified by mail, containing their credentials and SSH key to log in.
 
-#### Denying a request
+### Denying a request
 When the administrator denies a certain request, he will have the option to add a brief explanation on
 why the request got denied.
 
