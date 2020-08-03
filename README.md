@@ -1,5 +1,13 @@
 # Usage
 
+## Requirements
+
+* PHP 7.3 or higher (_7.4 recommended_)
+* Composer
+* MySQL
+* FreeIPA server installation
+* Docker (_If you wish to run the application in a dockerized environment_)
+
 ## Configuration
 
 Please modify the configuration parameters accordingly before deploying the application in production.
