@@ -63,4 +63,24 @@
             {{ form_end(form) }}
         </div>
     </div>
+
+    <script type="text/javascript">
+        let txtFirstName = $('#access_request_form_firstName');
+        let txtLastName = $('#access_request_form_lastName');
+        let txtUsername = $('#access_request_form_username');
+
+        function updateUsername() {
+            let firstname = txtFirstName.val();
+            let lastname = txtLastName.val();
+            let username = "";
+            if (firstname.length > 0)
+                username = firstname.charAt(0).toLowerCase();
+            if (lastname.length > 0)
+                username += lastname.toLowerCase();
+            txtUsername.val(username);
+        }
+
+        txtFirstName.keyup(updateUsername);
+        txtLastName.keyup(updateUsername);
+    </script>
 {% endblock %}
