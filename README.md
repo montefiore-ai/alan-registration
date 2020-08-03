@@ -58,7 +58,7 @@ If you wish to continue using the Google Mailer plugin (_mainly used for debuggi
 ## Workflow
 
 #### Submitting a request
-When a user submits a request to use the Alan cluster, an e-mail will be send to the cluster administrator.
+When a user submits a request to use the Alan cluster, an e-mail will be sent to the cluster administrator.
 
 The cluster administrator will have the option to either approve or deny the user's request.
 
