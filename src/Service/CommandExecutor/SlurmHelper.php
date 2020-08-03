@@ -27,6 +27,20 @@ class SlurmHelper
     }
 
     /**
+     * Creates a directory in /scratch with the given username.
+     *
+     * @param string $username
+     * @return void
+     */
+    public function addUserToScratch(string $username): void
+    {
+        $this->executorService->executeCommand([
+            'sudo mkdir -p /scratch/users/' . $username,
+            'sudo chown -R ' . $username . ': /scratch/users/' . $username
+        ]);
+    }
+
+    /**
      * Creates a temp directory on the server and generates a new ssh key with the user's email.
      *
      * @param string $email

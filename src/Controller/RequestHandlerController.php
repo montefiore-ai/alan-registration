@@ -83,6 +83,7 @@ class RequestHandlerController extends AbstractController
 
             $ipaHelper->addUser($accessRequest);
             $slurmHelper->addUserToSlurmGroup($accessRequest->getUsername(), $data['userGroup']);
+            $slurmHelper->addUserToScratch($accessRequest->getUsername());
 
             // Send an approval mail to the user
             $this->mailHelper->sendApprovedMail($accessRequest);
