@@ -50,7 +50,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 |-----------        |-------------|
 | MAILER_DSN        | The DSN connection string used to connect with a mailing server. [More Info](https://symfony.com/doc/current/mailer.html#transport-setup)
 
-If you wish to continue using the Google Mailer plugin (_mainly used for debugging_), you could modify following parameters accordingly:
+If you wish to use the Google Mailer plugin (_mainly used for debugging_), you could modify following parameters accordingly:
 
 | Parameter | Explanation |
 |-----------|-------------|
