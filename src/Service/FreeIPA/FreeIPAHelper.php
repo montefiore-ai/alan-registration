@@ -33,6 +33,7 @@ class FreeIPAHelper
      *
      * @param string $group
      * @return string|null
+     * @link https://www.php.net/manual/en/datetime.modify.php
      */
     private function getExpirationValue(string $group): ?string
     {
@@ -40,6 +41,11 @@ class FreeIPAHelper
             case 'students':
                 $modifier = '+1 years';
                 break;
+            /*
+             * case 'example-group':
+             * $modifier = '+1 month';
+             * break;
+             */
             default:
                 $modifier = null;
         }
