@@ -118,7 +118,7 @@ Finally, create the database schema:
 
     $ php bin/console doctrine:schema:create
     
-When pointing your web server to the application, make sure it is routing to the ``/public`` directory.
+When configuring your web server for the application, make sure to set the webroot to the ``/public`` directory.
 
 ## Workflow
 
