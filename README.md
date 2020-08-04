@@ -19,6 +19,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 | APP_ENV       | The environment in which the application should run (_dev/prod_)
 | ROOT_URL      | The root path of where the web application is located (without a trailing slash)
 | ROOT_MAIL     | The e-mail address from which all outgoing e-mails will be sent
+| ROOT_MAIL_PASS| The password of the above e-mail address. Used to connect with the SMTP server (see SMTP configuration)
 | CLUSTER_ADMIN | The e-mail address of the cluster administrator who will handle access requests
 | MASTER_IP     | The IP address of the alan master server (_used in templates/email/request_approved.html.twig_)
 | MASTER_HOST   | The host of the alan master server (_used in templates/email/request_approved.html.twig_)
@@ -42,6 +43,7 @@ Please modify the configuration parameters accordingly before deploying the appl
 | MYSQL_USER        | The username associated with the MySQL database
 | MYSQL_PASSWORD    | The password of the above user
 | MYSQL_ROOT_PASSWORD| The password of the MySQL root user
+| MYSQL_HOST        | The host of the MySQL server
 
 ### SMTP configuration
 | Parameter         | Explanation |
