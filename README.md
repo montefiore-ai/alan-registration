@@ -120,6 +120,18 @@ Finally, create the database schema:
     
 When configuring your web server for the application, make sure to set the webroot to the ``/public`` directory.
 
+## Modifying templates
+
+If you wish to modify the templates of either the website or the e-mails, you can find them inside the ``/templates`` directory.
+
+The templates use the [Twig template engine](https://twig.symfony.com/).
+
+### Passing additional data
+
+To pass additional parameters to a Twig template, pass them as an array of the ```render()``` method.
+Check [Rendering a template](https://symfony.com/doc/current/templates.html#rendering-a-template-in-controllers) for reference.
+
+
 ## Workflow
 
 ### Submitting a request
