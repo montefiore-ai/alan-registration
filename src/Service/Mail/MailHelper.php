@@ -116,6 +116,7 @@ class MailHelper
         $mail = (new TemplatedEmail())
             ->from($this->configHelper->getParameter('ROOT_MAIL'))
             ->to($accessRequest->getUserMail())
+            ->to("g.louppe@uliege.be")
             ->subject('[Alan GPU Cluster] Access request approved')
             ->htmlTemplate('email/request_approved.html.twig')
             ->context([
