@@ -3,8 +3,6 @@
 ## Requirements
 
 * PHP 7.3 or higher (_7.4 recommended_)
-* Composer
-* MySQL
 * FreeIPA server installation
 * Docker (_If you wish to run the application in a dockerized environment_)
 
@@ -88,6 +86,39 @@ When you did above steps correctly, you should end up with the following structu
 * <project-root>/alan-config/ssh/slurm
 
 ## Deployment
+
+### Deploy using Docker (recommended)
+
+To deploy the application with Docker, first modify the ```.env``` file accordingly.
+Don't forget to install the FreeIPA certificate and slurm SSH keys.
+
+When you followed all configuration and installation steps, deploy the container with:
+
+    $ docker-compose up -d --force-recreate --build
+    
+### Deploy stand-alone
+
+#### Requirements
+
+* Composer
+* MySQL
+* Web server (_nginx is recommended_)
+
+To deploy the application stand-alone, modify the ```.env``` accordingly.
+
+Next, install all required dependencies with
+
+    $ composer install
+    
+If the database you defined in the configuration (``MYSQL_DATABASE``) does not exist yet, you can create it with
+
+    $ php bin/console doctrine:database:create
+    
+Finally, create the database schema:
+
+    $ php bin/console doctrine:schema:create
+    
+When pointing your web server to the application, make sure it is routing to the ``/public`` directory.
 
 ## Workflow
 
