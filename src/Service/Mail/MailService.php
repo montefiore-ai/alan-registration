@@ -3,11 +3,12 @@
 namespace App\Service\Mail;
 
 use App\Service\ConfigHelper;
-use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Email;
 
 class MailService
@@ -18,7 +19,7 @@ class MailService
     private $configHelper;
 
     /**
-     * @var GmailSmtpTransport
+     * @var TransportInterface
      */
     private $transport;
 
@@ -32,13 +33,12 @@ class MailService
         $this->configHelper = $configHelper;
     }
 
-    public function getTransport(): GmailSmtpTransport
+    public function getTransport(): TransportInterface
     {
-        $username = $this->configHelper->getParameter('MAILER_USER');
-        $password = $this->configHelper->getParameter('MAILER_PASS');
+        $dsn = $this->configHelper->getParameter('MAILER_DSN');
 
         if ($this->transport === null) {
-            $this->transport = new GmailSmtpTransport($username, $password);
+            $this->transport = Transport::fromDsn($dsn);
         }
 
         return $this->transport;
