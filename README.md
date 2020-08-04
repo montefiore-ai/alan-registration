@@ -51,13 +51,6 @@ Please modify the configuration parameters accordingly before deploying the appl
 If your SMTP server is using a self-signed certificate or fails to establish a secure connection,
 please add ```?verify_peer=0``` to the ```MAILER_DSN``` connection string.
 
-If you wish to use the Google Mailer plugin (_mainly used for debugging_), you could modify following parameters accordingly:
-
-| Parameter | Explanation |
-|-----------|-------------|
-| MAILER_USER | Full Gmail e-mail address (_including @gmail.com_)
-| MAILER_PASS | Password of the Gmail account
-
 ### Slurm user groups
 
 The user groups which are used for Slurm are defined in ```src/Form/AccessRequestApproveFormType.php```
