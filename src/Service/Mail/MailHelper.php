@@ -141,6 +141,7 @@ class MailHelper
             ->subject('[Alan GPU Cluster] Access request denied')
             ->htmlTemplate('email/request_denied.html.twig')
             ->context([
+                'request' => $accessRequest,
                 'reason' => $reason
             ])
             ->priority(Email::PRIORITY_NORMAL);
